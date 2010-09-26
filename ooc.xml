@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language name="ooc" section="Sources"
+    version="1" kateversion="2.4"
+    license="LGPL" author="Gigih Aji Ibrahim"
+    indenter="cstyle"
+    extensions="*.ooc"
+    mimetype="text/x-ooc">
+
+  <!-- This file is based from cs.xml -->
+
+  <highlighting>
+    <list name="keywords">
+      <item> class</item>
+      <item> cover</item>
+      <item> interface</item>
+      <item> implement</item>
+      <item> func</item>
+      <item> abstract</item>
+
+      <item> extends</item>
+      <item> this</item>
+      <item> super</item>
+      <item> new</item>
+      <item> const</item>
+      <item> final</item>
+      <item> static</item>
+      
+      <item> from</item>
+      <item> include</item>
+      <item> import</item>
+      <item> use</item>
+      <item> extern</item>
+      <item> inline</item>
+      <item> proto</item>
+      <item> break</item>
+      
+      <item> continue</item>
+      <item> fallthrough</item>
+      <item> operator</item>
+      <item> as</item>
+      <item> in</item>
+      <item> version</item>
+      <item> return</item>
+            
+      <item> for</item>
+      <item> while</item>
+      <item> do</item>
+
+      <item> true</item>
+      <item> false</item> 
+      <item> null</item>
+    </list>
+    
+    <list name="types">
+      <item> Int</item>
+      <item> Bool</item>
+      <item> Char</item>
+      <item> UChar</item>
+      <item> WChar</item>
+      <item> Void</item>
+      
+      <item> Pointer</item>
+      <item> String</item>
+      <item> SizeT</item> 
+      <item> This</item> 
+      <item> LLong</item> 
+      <item> UInt</item> 
+      <item> Short</item>
+      <item> UShort</item>
+      
+      <item> Long</item>
+      <item> ULong</item> 
+      <item> ULLong</item> 
+      <item> Int8</item> 
+      <item> Int16</item> 
+      <item> Int32</item> 
+      <item> Int64</item>
+      
+      <item> UInt8</item> 
+      <item> UInt16</item> 
+      <item> UInt32</item> 
+      <item> UInt64</item> 
+      <item> Octet</item> 
+      <item> Float</item> 
+      <item> LDouble</item>
+      
+      <item> Double</item>
+      <item> Range</item> 
+      <item> Class</item> 
+      <item> Object</item> 
+      <item> Iterator</item>
+      
+      <item> Iterable</item> 
+      <item> Interface</item> 
+      <item> Exception</item> 
+      <item> Func</item> 
+    </list>
+
+    <list name="types">
+      <item> linux</item>
+      <item> win32</item>
+    </list>
+    
+    <contexts>
+      <!-- normal text -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="Normal">
+
+        <keyword attribute="Keyword" context="#stay" String="keywords"/>
+        <keyword attribute="Data Type" context="#stay" String="types" />
+
+        <!-- number -->
+        <Float attribute="Float" context="#stay">
+          <AnyChar String="fF" attribute="Float" context="#stay"/>
+        </Float>
+        <HlCOct attribute="Octal" context="#stay"/>
+        <HlCHex attribute="Hex" context="#stay"/>
+        <Int attribute="Decimal" context="#stay" >
+          <StringDetect attribute="Decimal" context="#stay" String="ULL" insensitive="TRUE"/>
+          <StringDetect attribute="Decimal" context="#stay" String="LUL" insensitive="TRUE"/>
+          <StringDetect attribute="Decimal" context="#stay" String="LLU" insensitive="TRUE"/>
+          <StringDetect attribute="Decimal" context="#stay" String="UL" insensitive="TRUE"/>
+          <StringDetect attribute="Decimal" context="#stay" String="LU" insensitive="TRUE"/>
+          <StringDetect attribute="Decimal" context="#stay" String="LL" insensitive="TRUE"/>
+          <StringDetect attribute="Decimal" context="#stay" String="U" insensitive="TRUE"/>
+          <StringDetect attribute="Decimal" context="#stay" String="L" insensitive="TRUE"/>
+        </Int>
+        
+        <HlCChar attribute="Char" context="#stay"/>
+        <DetectChar attribute="String" context="String" char="&quot;"/>
+
+        
+        <IncludeRules context="##Doxygen" />
+        
+        <Detect2Chars attribute="Comment" context="Commentar 1" char="/" char1="/"/>
+        <Detect2Chars attribute="Comment" context="Commentar 2" char="/" char1="*"/>
+        
+        <DetectChar attribute="Symbol" context="#stay" char="{" beginRegion="block1"/>
+        <DetectChar attribute="Symbol" context="#stay" char="}" endRegion="block1"/>
+
+        <RegExpr attribute="Function" context="#stay" String="\b[_\w][_\w\d]*(?=[\s]*[(])" />
+        <RegExpr attribute="Symbol" context="Member" String="[.]{1,1}" />
+        <AnyChar attribute="Symbol" context="#stay" String=":!%&amp;()+,-/.*&lt;=&gt;?[]|~^&#59;"/>
+      </context>
+
+      <!--string-->
+      <context attribute="String" lineEndContext="#pop" name="String">
+        <LineContinue attribute="String" context="#pop"/>
+        <HlCStringChar attribute="String Char" context="#stay"/>
+        <DetectChar attribute="String" context="#pop" char="&quot;"/>
+      </context>
+
+      <!--member-->
+      <context attribute="Normal Text" lineEndContext="#pop" name="Member" fallthrough="true" fallthroughContext="#pop">
+        <RegExpr attribute="Function" context="#pop" String="\b[_\w][_\w\d]*(?=[\s]*)" />
+      </context>
+
+      <!--comments-->
+      <context attribute="Comment" lineEndContext="#pop" name="Commentar 1"/>
+      <context attribute="Comment" lineEndContext="#stay" name="Commentar 2">
+        <Detect2Chars attribute="Comment" context="#pop" char="*" char1="/"/>
+      </context>
+      
+    </contexts>
+    
+    <itemDatas>
+      <itemData name="Normal Text"  defStyleNum="dsNormal"/>
+      <itemData name="Keyword"      defStyleNum="dsKeyword"/>
+      <itemData name="Function"     defStyleNum="dsFunction"/>
+      <itemData name="Data Type"    defStyleNum="dsDataType"/>
+      <itemData name="Decimal"      defStyleNum="dsDecVal"/>
+      <itemData name="Octal"        defStyleNum="dsBaseN"/>
+      <itemData name="Hex"          defStyleNum="dsBaseN"/>
+      <itemData name="Float"        defStyleNum="dsFloat"/>
+      <itemData name="Char"         defStyleNum="dsChar"/>
+      <itemData name="String"       defStyleNum="dsString"/>
+      <itemData name="String Char"  defStyleNum="dsChar"/>
+      <itemData name="Comment"      defStyleNum="dsComment"/>
+      <itemData name="Symbol"       defStyleNum="dsNormal"/>
+    </itemDatas>
+  </highlighting>
+  
+  <general>
+    <comments>
+      <comment name="singleLine" start="//" />
+      <comment name="multiLine" start="/*" end="*/" />
+    </comments>
+    <keywords casesensitive="1" />
+  </general>
+  
+</language>
